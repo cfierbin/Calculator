@@ -1,7 +1,5 @@
 
 
-import javax.swing.JOptionPane;
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -27,7 +25,9 @@ import javafx.stage.Stage;
  */
 public class AdvancedCalculator extends Application {
 	
-    TextField displayField = new TextField();
+	final static int PREF_BUTTON_WIDTH = 50;
+	
+    private TextField displayField = new TextField();
     
 	//public API
 
@@ -53,7 +53,6 @@ public class AdvancedCalculator extends Application {
     	CalculatorEngine calcEngine = new CalculatorEngine(this);
     	
         primaryStage.setTitle("Calculator");
-        //primaryStage.initStyle(StageStyle.TRANSPARENT);
         Group group = new Group();
         Scene scene = new Scene(group, 390, 230, Color.WHITESMOKE);
         
@@ -74,11 +73,12 @@ public class AdvancedCalculator extends Application {
         // display field
         GridPane.setRowSpan(displayField, 1);
         GridPane.setColumnSpan(displayField,2);
-        //GridPane.setHalignment(displayField, HPos.RIGHT);
         displayField.setScaleX(1.0);
         displayField.setPrefWidth(350.0);
+        displayField.setAlignment(Pos.BASELINE_RIGHT);;
         
         //first row of cells
+        //create horizontal box to hold backspace, ce and c
         HBox hbox = new HBox();
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.BASELINE_RIGHT);
@@ -89,165 +89,113 @@ public class AdvancedCalculator extends Application {
         hbox.setPrefWidth(350.0);
         
         Button backspace = new Button();
-        backspace.setText("Backspace");
-        backspace.setPrefWidth(90);
-        backspace.setOnMouseClicked(calcEngine);
+        setButtonPropertiesAndEventHandler(backspace, "Backspace", 90, calcEngine);
         
         Button ce = new Button();
-        ce.setText("CE");
-        ce.setPrefWidth(90);
-        ce.setOnMouseClicked(calcEngine);
+        setButtonPropertiesAndEventHandler(ce, "CE", 90, calcEngine);
         
         Button c = new Button();
-        c.setText("C");
-        c.setPrefWidth(90);
-        c.setOnMouseClicked(calcEngine);
+        setButtonPropertiesAndEventHandler(c, "C", 90, calcEngine);
         
+        //add backspace, ce and c to their container
         hbox.getChildren().add(backspace);
         hbox.getChildren().add(ce);
         hbox.getChildren().add(c);
         
         //MC, MR, MS, M+
-        
+        //create vertical box to hold mc, mr, ms and mPlus
         VBox vbox = new VBox();
         vbox.setSpacing(10);
-        //vbox.setAlignment(Pos.BASELINE_RIGHT);
         GridPane.setRowSpan(vbox, 4);
         GridPane.setColumnSpan(vbox,1);
         GridPane.setValignment(vbox, VPos.BOTTOM);
         vbox.setScaleY(1.0);
-        //vbox.setPrefWidth(400.0);
         
         Button mc = new Button();
-        mc.setText("MC");
-        mc.setPrefWidth(50);
-        mc.setOnMouseClicked(calcEngine);
+        setButtonPropertiesAndEventHandler(mc, "MC", 50, calcEngine);        
         
         Button mr = new Button();
-        mr.setText("MR");
-        mr.setPrefWidth(50);
-        mr.setOnMouseClicked(calcEngine);
+        setButtonPropertiesAndEventHandler(mr, "MR", 50, calcEngine);  
         
         Button ms = new Button();
-        ms.setText("MS");
-        ms.setPrefWidth(50);
-        ms.setOnMouseClicked(calcEngine);
+        setButtonPropertiesAndEventHandler(ms, "MS", 50, calcEngine);
         
         Button mPlus = new Button();
-        mPlus.setText("M+");
-        mPlus.setPrefWidth(50);
-        mPlus.setOnMouseClicked(calcEngine);
+        setButtonPropertiesAndEventHandler(mPlus, "M+", 50, calcEngine);
         
+        //add mc, mr, ms and mPlus to their container
         vbox.getChildren().add(mc);
         vbox.getChildren().add(mr);
         vbox.getChildren().add(ms);
         vbox.getChildren().add(mPlus);
         
         //the rest
+        //create GridPane to hold the rest of the buttons
         GridPane moreButtons = new GridPane();        
         moreButtons.setHgap(10);
         moreButtons.setVgap(10);
         moreButtons.setPadding(new Insets(0,0,0,15));
         
+        //create buttons
         Button seven = new Button("7");
-        seven.setPrefWidth(50);
-        moreButtons.add(seven,0,0);
-        seven.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(seven, 0, 0, PREF_BUTTON_WIDTH, moreButtons, calcEngine);      
         
         Button eight = new Button("8");
-        eight.setPrefWidth(50);
-        moreButtons.add(eight,1,0);
-        eight.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(eight, 1, 0, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button nine = new Button("9");
-        nine.setPrefWidth(50);
-        moreButtons.add(nine,2,0);
-        nine.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(nine, 2, 0, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button div = new Button("/");
-        div.setPrefWidth(50);
-        moreButtons.add(div,3,0);
-        div.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(div, 3, 0, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button sqrt = new Button("sqrt");
-        moreButtons.add(sqrt,4,0);
-        sqrt.setPrefWidth(50);
-        sqrt.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(sqrt, 4, 0, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button four = new Button("4");
-        four.setPrefWidth(50);
-        moreButtons.add(four,0,1);
-        four.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(four, 0, 1, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button five = new Button("5");
-        five.setPrefWidth(50);
-        moreButtons.add(five,1,1);
-        five.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(five, 1, 1, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button six = new Button("6");
-        six.setPrefWidth(50);
-        moreButtons.add(six,2,1);
-        six.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(six, 2, 1, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button mult = new Button("*");
-        mult.setPrefWidth(50);
-        moreButtons.add(mult,3,1);
-        mult.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(mult, 3, 1, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button mod = new Button("%");
-        mod.setPrefWidth(50);
-        moreButtons.add(mod,4,1);
-        mod.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(mod, 4, 1, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button one = new Button("1");
-        one.setPrefWidth(50);
-        moreButtons.add(one,0,2);
-        one.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(one, 0, 2, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button two = new Button("2");
-        two.setPrefWidth(50);
-        moreButtons.add(two,1,2);
-        two.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(two, 1, 2, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button three = new Button("3");
-        three.setPrefWidth(50);
-        moreButtons.add(three,2,2);
-        three.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(three, 2, 2, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button dot = new Button(".");
-        dot.setPrefWidth(50);
-        moreButtons.add(dot,3,2);
-        dot.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(dot, 3, 2, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button inv = new Button("1/x");
-        moreButtons.add(inv,4,2);
-        inv.setPrefWidth(50);
-        inv.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(inv, 4, 2, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button zero = new Button("0");
-        zero.setPrefWidth(50);
-        moreButtons.add(zero,0,3);
-        zero.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(zero, 0, 3, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
-        Button pm = new Button("+/-");
-        pm.setPrefWidth(50);
-        moreButtons.add(pm,1,3);
-        pm.setOnMouseClicked(calcEngine);
+        Button plusMinus = new Button("+/-");
+        setPrefPlusHandlerAndAdd(plusMinus, 1, 3, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button minus = new Button("-");
-        minus.setPrefWidth(50);
-        moreButtons.add(minus,2,3);
-        minus.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(minus, 2, 3, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         Button plus = new Button("+");
-        plus.setPrefWidth(50);
-        moreButtons.add(plus,3,3);
-        plus.setOnMouseClicked(calcEngine);
+        setPrefPlusHandlerAndAdd(plus, 3, 3, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
-        Button egal = new Button("=");
-        egal.setPrefWidth(50);
-        moreButtons.add(egal,4,3);
-        egal.setOnMouseClicked(calcEngine);
+        Button equal = new Button("=");
+        setPrefPlusHandlerAndAdd(equal, 4, 3, PREF_BUTTON_WIDTH, moreButtons, calcEngine);
         
         //construct interface
         root.add(displayField, 0, 2);
@@ -261,6 +209,20 @@ public class AdvancedCalculator extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+	private void setPrefPlusHandlerAndAdd(Button button, int x, int y, int width, 
+			GridPane moreButtons, CalculatorEngine calcEngine) {
+		button.setPrefWidth(width);
+        moreButtons.add(button,x,y);
+        button.setOnMouseClicked(calcEngine);
+	}
+
+	private void setButtonPropertiesAndEventHandler(Button button,
+			String text, int prefWidth, CalculatorEngine calcEngine) {
+		button.setText(text);
+        button.setPrefWidth(prefWidth);
+        button.setOnMouseClicked(calcEngine);
+	}
     
     class CalculatorEngine implements EventHandler<MouseEvent>
     {
@@ -316,7 +278,6 @@ public class AdvancedCalculator extends Application {
 				System.out.println("The operation required is " + operator);
 				
 				//perform the selected action
-				try {	
 					if ("+".equals(operator)) {
 						result = Double.parseDouble(parent.getDisplayFieldValue()) + Double.parseDouble(firstNumber);
 					}
@@ -327,52 +288,59 @@ public class AdvancedCalculator extends Application {
 						result =  Double.parseDouble(firstNumber) * Double.parseDouble(parent.getDisplayFieldValue());
 					}
 					if ("/".equals(operator)) {
-						result =  Double.parseDouble(firstNumber) / Double.parseDouble(parent.getDisplayFieldValue());
+						//validate input
+						if (Double.parseDouble(parent.getDisplayFieldValue()) == 0){
+							parent.setDisplayFieldValue("You cannot divide by zero!");
+							break;
+						}
+						else
+								result =  Double.parseDouble(firstNumber) / Double.parseDouble(parent.getDisplayFieldValue());
 					}
-				}
-				catch(Exception exception){
-						JOptionPane.showMessageDialog(null, "An exception occured!", "Exception", JOptionPane.ERROR_MESSAGE);	
-					}			
+		
 				//store result in firstNumber
 				firstNumber = String.valueOf(result);
 				//display the result
 				parent.setDisplayFieldValue(firstNumber);
 				break;
 			case "Backspace":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "CE":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "C":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				// erase the number or message from the display
+				parent.setDisplayFieldValue("");
 				break;
 			case "MC":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "MR":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "MS":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "M+":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "sqrt":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				//store result in firstNumber
+				firstNumber = String.valueOf(Math.sqrt(Double.parseDouble(parent.getDisplayFieldValue())));
+				//display the result
+				parent.setDisplayFieldValue(firstNumber);
 				break;
 			case "%":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "1/x":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			case "+/-":
-				JOptionPane.showMessageDialog(null, "Not yet implemented!", "Not implemented!", JOptionPane.INFORMATION_MESSAGE);
+				parent.setDisplayFieldValue("Not yet implemented!");
 				break;
 			default:
-				JOptionPane.showMessageDialog(null, "Undefined action", "Undefined action", JOptionPane.INFORMATION_MESSAGE);;	
+				parent.setDisplayFieldValue("Undefined action");
 			}
 			
 		}
