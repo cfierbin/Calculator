@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  */
 public class AdvancedCalculator extends Application {
 	
-	final static int PREF_BUTTON_WIDTH = 50;
+	private final static int PREF_BUTTON_WIDTH = 50;
 	
     private TextField displayField = new TextField();
     
